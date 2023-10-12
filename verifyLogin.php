@@ -1,6 +1,6 @@
 <?php
 include 'connection.php';
-$userid = $_POST['username'];
+$userid = $_POST['userid'];
 $password = $_POST['password'];
 $sql = "SELECT * FROM users WHERE username = '$userid' AND password = '$password'";
 $result = mysqli_query($db, $sql) or die(mysqli_error($db));
