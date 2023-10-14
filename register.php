@@ -1,8 +1,8 @@
 <?php
 include 'connection.php';
-$user_name = mysqli_real_escape_string($db, $_REQUEST['user_name']);
-$pass_word = mysqli_real_escape_string($db, $_REQUEST['pass_word']);
-$pass_word1 = mysqli_real_escape_string($db, $_REQUEST['pass_word1']);
+$user_name = $_POST['user_name'];
+$pass_word = $_POST['pass_word'];
+$pass_word1 = $_POST['pass_word1'];
 $select= mysqli_query($db, "SELECT * FROM users WHERE username = '".$_POST['user_name']."'");
 ?>
 
@@ -38,8 +38,8 @@ $select= mysqli_query($db, "SELECT * FROM users WHERE username = '".$_POST['user
             echo "Passwords do not match!";
         }
         else {
-            $sql = "INSERT INTO users (username, password) VALUES('$user_name', '$pass_word')";
-            password_hash($password, PASSWORD_DEFAULT);
+            $hashed_password = password_hash($pass_word, PASSWORD_DEFAULT);
+            $sql = "INSERT INTO users (username, password) VALUES('$user_name', '$hashed_password')";
             if(mysqli_query($db, $sql)) {
             header("Location: form.html");
             }
