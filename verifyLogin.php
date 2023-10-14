@@ -62,7 +62,7 @@ mysqli_stmt_bind_param($stmt, "s", $userid);
             session_regenerate_id();
             $_SESSION['loggedin'] = true;
             $_SESSION['username'] = $userid;
-            echo "Logged in";
+            header("Location: musicratings.php");
           }
           else {
             echo "Invalid Credentials";
