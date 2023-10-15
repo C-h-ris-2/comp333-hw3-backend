@@ -15,7 +15,9 @@ session_start();
     <?php
         echo "You are currently logged in as: " . $_SESSION["username"] . ".<br>";
     ?>
+    <a href="logout.php">Log Out</a>
     <h1>Song Ratings</h1>
+
     <table>
         <tr>
             <th>ID</th>
