@@ -3,6 +3,7 @@ include 'connection.php';
 $sql = "SELECT * FROM ratings";
 $ratings = mysqli_query($db, "SELECT * FROM ratings");
 mysqli_close($db);
+session_start();
 ?>
 
 <!DOCTYPE html>
@@ -11,6 +12,9 @@ mysqli_close($db);
     <title>Music Rating Page</title>
 </head>
 <body>
+    <?php
+        echo "You are currently logged in as: " . $_SESSION["username"] . ".<br>";
+    ?>
     <h1>Song Ratings</h1>
     <table>
         <tr>
