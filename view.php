@@ -15,7 +15,7 @@ $id2=$_GET['id'];
     <body>
         <?php
             echo "You are currently logged in as: " . $_SESSION["username"] . ".<br>";
-            echo "ID: " . $_GET['id'] . ".<br>";
+            echo "ID: " . $id2. ".<br>";
         ?>
         <a href="logout.php">Log Out</a>
     </body>

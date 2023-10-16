@@ -29,15 +29,15 @@ session_start();
         <?php 
             while($rows=mysqli_fetch_assoc($ratings)){
         ?>
-        <tr>
+        <tr>    
                 <td><?php echo $rows['id'];?></td>
                 <td><?php echo $rows['username'];?></td>
                 <td><?php echo $rows['artist'];?></td>
                 <td><?php echo $rows['song'];?></td>
                 <td><?php echo $rows['rating'];?></td>
-                <td><a href="view.php?id='.$row['id'].'">View</a></td>
+                <td><a href="view.php?id=<?php echo $rows['id'];?>">View</a></td>
         </tr>       
-        <?php        
+        <?php   
         }
         ?>
     <table>
