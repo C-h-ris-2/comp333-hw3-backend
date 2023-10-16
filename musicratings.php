@@ -35,6 +35,7 @@ session_start();
                 <td><?php echo $rows['artist'];?></td>
                 <td><?php echo $rows['song'];?></td>
                 <td><?php echo $rows['rating'];?></td>
+                <td><a href="view.php?id='.$row['id'].'">View</a></td>
         </tr>       
         <?php        
         }
