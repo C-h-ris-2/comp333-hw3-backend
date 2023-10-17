@@ -25,7 +25,7 @@ $select= mysqli_query($db, "SELECT * FROM users WHERE username = '".$_POST['user
           <input type="text" id="password1" name="pass_word1">
         </p>
         <p>
-          <input type="submit" id="button" value="register" >
+          <input type="submit" id="button" value="register">
         </p>
       </form>
     </div>
