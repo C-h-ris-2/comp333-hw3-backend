@@ -17,7 +17,7 @@ session_start();
     ?>
     <a href="logout.php">Log Out</a>
     <h1>Song Ratings</h1>
-
+    <a href="newsong.php">Add a New Song</a>
     <table>
         <tr>
             <th>ID</th>
