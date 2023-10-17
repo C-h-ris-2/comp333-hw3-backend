@@ -21,15 +21,15 @@ session_start();
         <form name="form" method="POST">
             <p>
                 <label for="artist">Artist</label>
-                <input type="text" value="<?php echo $rows['artist'];?>" name='artist' id='artist'>
+                <input type="text" value="<?php echo $rows['artist'];?>" name='ar_tist' id='artist'>
             </p>
             <p>
                 <label for="song">Song</label>
-                <input type="text" value="<?php echo $rows['song'];?>" name='song' id='song'>
+                <input type="text" value="<?php echo $rows['song'];?>" name='so_ng' id='song'>
             </p>
             <p>
                 <label for="rating">Rating</label>
-                <input type="text" value="<?php echo $rows['rating'];?>" name='rating' id='rating'>
+                <input type="text" value="<?php echo $rows['rating'];?>" name='ra_ting' id='rating'>
             </p>
                 <input type="submit" value="Submit" name="submit">
                 <input type="submit" value="Cancel" name="cancel">
@@ -37,9 +37,13 @@ session_start();
         </form>
         <?php
         if ($_SERVER["REQUEST_METHOD"]== "POST" && isset($_POST["submit"])){
-            $sql1 = "UPDATE ratings SET artist=' " .$_POST['artist']. " 'song='".$_POST['song']."', rating='".$_POST['rating']."' WHERE id=$id";
-            mysqli_query($db, $sql1);
-            header("Location:musicratings.php");
+            $sql1 = "UPDATE ratings SET artist='" . $_POST['ar_tist'] . "', song='" . $_POST['so_ng'] . "', rating='" . $_POST['ra_ting'] . "' WHERE id=" . $_id;
+            if(mysqli_query($db, $sql1)){
+                header("Location: musicratings.php");
+            }
+            else{
+                echo "ERROR: Could not execute $sql";
+            }
         }
         else if ($_SERVER["REQUEST_METHOD"]=="POST" && isset($_POST["cancel"])){
             header("Location: musicratings.php");
