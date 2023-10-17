@@ -14,17 +14,26 @@ session_start();
     <title>Music Rating Page</title>
 </head>
     <body>
+    <?php echo "You are currently logged in as: " . $_SESSION["username"] . ".<br>"; ?>
     <a href="logout.php">Log Out</a>
+    <h1>View</h1>
         <?php
-            echo "You are currently logged in as: " . $_SESSION["username"] . ".<br>";
             if (mysqli_num_rows($curr_rating) > 0) {
-                // output data of each row
-                while($row = mysqli_fetch_assoc($curr_rating)) {
-                  echo "id: " . $row['id']. " - Artist: " . $row['artist']. " - Song: " . $row['song']. " - Rating: " . $row['rating']. "<br>";
+              while($row = mysqli_fetch_assoc($curr_rating)) {
+                ?>
+                <h3> Username:</h3>
+                <?php echo $row['username'];?>
+                <h3> Artist:</h3>
+                <?php echo $row['artist'];?>
+                <h3> Song:</h3>
+                <?php echo $row['song'];?>
+                <h3> Rating:</h3>
+                <?php echo $row['rating'];
                 }
-              } else {
-                echo "0 results";
-              }
+            } else {
+              echo "0 results";
+            }
         ?>
+        <a href="musicratings.php"></br></br>Back</a>
     </body>
 </html>
