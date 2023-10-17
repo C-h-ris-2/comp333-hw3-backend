@@ -34,22 +34,21 @@ session_start();
 
         </form>
         <?php
-        $select2 = mysqli_query($db, "SELECT * FROM ratings WHERE song = '".$_POST['song']."'");
+        if ($_SERVER["REQUEST_METHOD"]== "POST" && isset($_POST["submit"])){
+            $select2 = mysqli_query($db, "SELECT * FROM ratings WHERE song = '".$_POST['song']."'");
         if (mysqli_num_rows($select2)) {
             echo "This song is already in the system. Insert another song!";
+        } else{
+            $add = "INSERT INTO ratings (username, artist, song, rating)
+            VALUES ('".$_SESSION['username']."',' " .$_POST['artist']. " ',' " .$_POST['song']. " ',' " .$_POST['rating']. " ')";
+            mysqli_query($db, $add);
+            header("Location:musicratings.php");
+        }}
+        else if ($_SERVER["REQUEST_METHOD"]=="POST" && isset($_POST["cancel"])){
+            header("Location: musicratings.php");
+            exit();
         }
-        else{   
-            if ($_SERVER["REQUEST_METHOD"]== "POST" && isset($_POST["submit"])){
-                $add = "INSERT INTO ratings (username, artist, song, rating)
-                VALUES (' " .$_SESSION['username']. " ',' " .$_POST['artist']. " ',' " .$_POST['song']. " ',' " .$_POST['rating']. " ')";
-                mysqli_query($db, $add);
-                header("Location:musicratings.php");
-            }
-            else if ($_SERVER["REQUEST_METHOD"]=="POST" && isset($_POST["cancel"])){
-                header("Location: musicratings.php");
-                exit();
-            }
-        }
+        
         mysqli_close($db);
         ?>
     </body>
