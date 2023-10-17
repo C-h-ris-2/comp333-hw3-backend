@@ -11,7 +11,10 @@ session_start();
         <title>Delete page</title>
     </head>
     <body>
-
+        <?php
+            echo "You are currently logged in as: " . $_SESSION["username"] . ".<br>";
+        ?>
+        <a href="logout.php">Log Out</a>
         <div id="form">
             <h1>Rating delete</h1>
             <form name="form" method="POST">

@@ -14,9 +14,12 @@ session_start();
     <title>Music Rating Page</title>
 </head>
     <body>
+    <?php
+        echo "You are currently logged in as: " . $_SESSION["username"] . ".<br>";
+    ?>
     <a href="logout.php">Log Out</a>
+    <br>
         <?php
-            echo "You are currently logged in as: " . $_SESSION["username"] . ".<br>";
             if (mysqli_num_rows($curr_rating) > 0) {
                 // output data of each row
                 while($row = mysqli_fetch_assoc($curr_rating)) {

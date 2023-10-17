@@ -36,6 +36,7 @@ session_start();
                         <td><?php echo $rows['artist'];?></td>
                         <td><?php echo $rows['song'];?></td>
                         <td><?php echo $rows['rating'];?></td>
+                        <td><a href="view.php?id=<?php echo $rows["id"];?>">View</a></td>
                         <td><a href="update.php?id=<?php echo $rows["id"];?>">Update</a></td>
                         <td><a href="delete.php?id=<?php echo $rows["id"]; ?>">Delete</a></td>
                     </tr>
@@ -48,6 +49,7 @@ session_start();
                         <td><?php echo $rows['artist'];?></td>
                         <td><?php echo $rows['song'];?></td>
                         <td><?php echo $rows['rating'];?></td>
+                        <td><a href="view.php?id=<?php echo $rows["id"];?>">View</a></td>
                     </tr> 
                     <?php      
                 }
