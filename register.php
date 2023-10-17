@@ -50,6 +50,7 @@ $select= mysqli_query($db, "SELECT * FROM users WHERE username = '".$_POST['user
     }
     
     ?>
+    <a href="musicratings.php">Back</a>
   </body>
 </html>
 
