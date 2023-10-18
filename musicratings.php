@@ -1,7 +1,7 @@
 <?php
 include 'connection.php';
 $sql = "SELECT * FROM ratings";
-$ratings = mysqli_query($db, "SELECT * FROM ratings");
+$ratings = mysqli_query($db, $sql);
 mysqli_close($db);
 session_start();
 ?>

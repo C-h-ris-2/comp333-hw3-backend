@@ -36,11 +36,11 @@ session_start();
         </form>
         <?php
         if ($_SERVER["REQUEST_METHOD"]== "POST" && isset($_POST["submit"])){
-            $select2 = mysqli_query($db, "SELECT * FROM ratings WHERE song = '".$_POST['song']."'");
-            $stmt = mysqli_prepare($db, $sql);
-            if (mysqli_stmt_execute($stmt)) {
+            $select2 = "SELECT * FROM ratings WHERE username='".$_SESSION['username']."' AND artist ='".$_POST['artist']."' AND song ='".$_POST['song']."'";
+            $result = mysqli_query($db, $select2);
+            if (mysqli_num_rows($result)>0) {
                 echo "This artist and song are already in the system. Insert another song!";
-            }else if($_POST['rating']>5){
+            }else if($_POST['rating']>5 OR $_POST['rating']<1){
                 echo "Please chose a rating from 1 to 5!";
             }
             else{
@@ -49,9 +49,9 @@ session_start();
                 mysqli_query($db, $add);
                 header("Location:musicratings.php");
             }}
-            else if ($_SERVER["REQUEST_METHOD"]=="POST" && isset($_POST["cancel"])){
-                header("Location: musicratings.php");
-                exit();
+        else if ($_SERVER["REQUEST_METHOD"]=="POST" && isset($_POST["cancel"])){
+            header("Location: musicratings.php");
+            exit();
         }
         
         mysqli_close($db);
