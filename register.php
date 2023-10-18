@@ -37,6 +37,9 @@ $select= mysqli_query($db, "SELECT * FROM users WHERE username = '".$_POST['user
         if($pass_word != $pass_word1) {
             echo "Passwords do not match!";
         }
+        else if(strlen($pass_word)<10){
+          echo "Your password must contain at least 10 characters";
+        }
         else {
             $hashed_password = password_hash($pass_word, PASSWORD_DEFAULT);
             $sql = "INSERT INTO users (username, password) VALUES('$user_name', '$hashed_password')";

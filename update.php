@@ -71,7 +71,7 @@ session_start();
                 }
             else{
             $sql1 = "UPDATE ratings SET artist='" . $_POST['ar_tist'] . "', song='" . $_POST['so_ng'] . "', rating='" . $_POST['ra_ting'] . "' WHERE id=" . $_id;
-            if($_POST['artist']>5){
+            if($_POST['ra_ting']>5){
                 echo "Please chose a rating from 1 to 5!";
             }
             else if(mysqli_query($db, $sql1)){
