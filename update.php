@@ -37,6 +37,39 @@ session_start();
         </form>
         <?php
         if ($_SERVER["REQUEST_METHOD"]== "POST" && isset($_POST["submit"])){
+            if (empty($_POST['ar_tist'])) {
+                echo "You need to enter an artist!<br>";
+              }
+              else {
+                $artist =$_POST['ar_tist'];
+              }
+              
+              if(empty($_POST['so_ng'])) {
+                echo "You need to enter a song!<br>";
+              }
+              else {
+                $song = trim($_POST['so_ng']);
+              }
+            
+              if (empty($_POST['ra_ting'])){
+                echo "You need to enter a rating!<br>";
+              }
+              else{
+                $rating = trim($_POST['ra_ting']);
+              }
+            $sql = "SELECT id FROM ratings WHERE username = ? AND artist = ? AND song = ?";
+            $stmt = $db->prepare($sql);
+            
+            // $select2 = "SELECT * FROM ratings WHERE artist ='".$_POST['artist']."' AND song ='".$_POST['song']."'";
+            // $result = mysqli_query($db, $select2);
+            if ($stmt) {
+                $stmt->bind_param("sss", $_SESSION['username'],$artist,$song);
+                $stmt->execute();
+                $result=$stmt->get_result();
+                if($result->num_rows > 0){
+                    echo "This artist and song are already in the system. Insert another song!";
+                }
+            else{
             $sql1 = "UPDATE ratings SET artist='" . $_POST['ar_tist'] . "', song='" . $_POST['so_ng'] . "', rating='" . $_POST['ra_ting'] . "' WHERE id=" . $_id;
             if($_POST['artist']>5){
                 echo "Please chose a rating from 1 to 5!";
@@ -47,7 +80,7 @@ session_start();
             else{
                 echo "ERROR: Could not execute $sql";
             }
-        }
+        }}}
         else if ($_SERVER["REQUEST_METHOD"]=="POST" && isset($_POST["cancel"])){
             header("Location: musicratings.php");
             exit();
