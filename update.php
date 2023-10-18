@@ -38,7 +38,10 @@ session_start();
         <?php
         if ($_SERVER["REQUEST_METHOD"]== "POST" && isset($_POST["submit"])){
             $sql1 = "UPDATE ratings SET artist='" . $_POST['ar_tist'] . "', song='" . $_POST['so_ng'] . "', rating='" . $_POST['ra_ting'] . "' WHERE id=" . $_id;
-            if(mysqli_query($db, $sql1)){
+            if($_POST['artist']>5){
+                echo "Please chose a rating from 1 to 5!";
+            }
+            else if(mysqli_query($db, $sql1)){
                 header("Location: musicratings.php");
             }
             else{
