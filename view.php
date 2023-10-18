@@ -1,6 +1,8 @@
 <?php
 include 'connection.php';
+// get current id from when the link is clicked
 $id=$_GET['id'];
+//and turn it into text
 $_id = strval($id);
 $sql = "SELECT * FROM ratings WHERE id = $_id";
 $curr_rating = mysqli_query($db, $sql);
@@ -18,6 +20,7 @@ session_start();
     <a href="logout.php">Log Out</a>
     <h1>View</h1>
         <?php
+        //if the row aligns with the id, print!
             if (mysqli_num_rows($curr_rating) > 0) {
               while($row = mysqli_fetch_assoc($curr_rating)) {
                 ?>
@@ -34,6 +37,7 @@ session_start();
               echo "0 results";
             }
         ?>
+        <!-- Back button -->
         <a href="musicratings.php"></br></br>Back</a>
     </body>
 </html>

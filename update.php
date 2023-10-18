@@ -1,6 +1,8 @@
 <?php
 include 'connection.php';
+//gets id from link
 $id=$_GET['id'];
+//and turns it into a string
 $_id = strval($id);
 $sql = "SELECT * FROM ratings WHERE id = $_id";
 $curr_rating = mysqli_query($db, $sql);
@@ -36,7 +38,9 @@ session_start();
 
         </form>
         <?php
+        //if click submit check everythng is good to go
         if ($_SERVER["REQUEST_METHOD"]== "POST" && isset($_POST["submit"])){
+            // have they forgotten to put something in?
             if (empty($_POST['ar_tist'])) {
                 echo "You need to enter an artist!<br>";
               }
@@ -48,6 +52,7 @@ session_start();
                 echo "You need to enter a song!<br>";
               }
               else {
+                //otherwise trim spaces
                 $song = trim($_POST['so_ng']);
               }
             
@@ -55,17 +60,19 @@ session_start();
                 echo "You need to enter a rating!<br>";
               }
               else{
+                //otherwise trim spaces
                 $rating = trim($_POST['ra_ting']);
               }
+              //preparing sql database
             $sql = "SELECT id FROM ratings WHERE username = ? AND artist = ? AND song = ?";
             $stmt = $db->prepare($sql);
             
-            // $select2 = "SELECT * FROM ratings WHERE artist ='".$_POST['artist']."' AND song ='".$_POST['song']."'";
-            // $result = mysqli_query($db, $select2);
+            //checking connection to SQL
             if ($stmt) {
                 $stmt->bind_param("sss", $_SESSION['username'],$artist,$song);
                 $stmt->execute();
                 $result=$stmt->get_result();
+                // if song is already in, warn user!
                 if($result->num_rows > 0){
                     echo "This artist and song are already in the system. Insert another song!";
                 }

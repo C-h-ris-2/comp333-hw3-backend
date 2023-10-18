@@ -1,3 +1,4 @@
+<!-- Opening connection to MySQL. Session start allows us to keep track of the current session (who's logged in) -->
 <?php
 include 'connection.php';
 $sql = "SELECT * FROM ratings";
@@ -18,6 +19,7 @@ session_start();
     <a href="logout.php">Log Out</a>
     <h1>Song Ratings</h1>
     <a href="newsong.php">Add a New Song</a>
+    <!-- Table headers -->
     <table>
         <tr>
             <th>ID</th>
@@ -27,7 +29,9 @@ session_start();
             <th>Rating</th>
         </tr>
         <?php 
+        // fetching data frow current database and pritning while there is info available
             while($rows=mysqli_fetch_assoc($ratings)){
+                // if user matches other songs, let them edit/delete
                 if($rows['username'] == $_SESSION['username']){
                     ?>
                     <tr>
@@ -42,6 +46,7 @@ session_start();
                     </tr>
                     <?php       
                 }
+                // otherwise only show view.
                 else{?>
                     <tr>
                         <td><?php echo $rows['id'];?></td>

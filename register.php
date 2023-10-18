@@ -1,3 +1,4 @@
+<!-- The Backend component of registration.-->
 <?php
 include 'connection.php';
 $user_name = $_POST['user_name'];
@@ -30,6 +31,7 @@ $select= mysqli_query($db, "SELECT * FROM users WHERE username = '".$_POST['user
       </form>
     </div>
     <?php
+    // If already within db, don't let them have the same username
     if (mysqli_num_rows($select)) {
         echo "This username is taken";
     }
@@ -41,12 +43,13 @@ $select= mysqli_query($db, "SELECT * FROM users WHERE username = '".$_POST['user
           echo "Your password must contain at least 10 characters";
         }
         else {
+          // Otherwise insert to DB
             $hashed_password = password_hash($pass_word, PASSWORD_DEFAULT);
             $sql = "INSERT INTO users (username, password) VALUES('$user_name', '$hashed_password')";
             if(mysqli_query($db, $sql)) {
             header("Location: form.html");
             }
-            else {
+            else {// Output error if there is no connection!
             echo "Error: " . $sql . "<br>" . $db->error; 
             }
         }

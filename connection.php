@@ -1,3 +1,4 @@
+<!-- Connects database to PHP -->
 <?php
 $db = mysqli_connect("localhost","root","","users_hw2");
 

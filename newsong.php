@@ -14,6 +14,7 @@ session_start();
         ?>
         <a href="logout.php">Log Out</a>
         <h1>Add a New Song</h1>
+        <!-- Another form to Insert new row into the ratings table in the db. Inputs below: -->
         <form name="form" method="POST">
             <p>
                 <label for="artist">Artist</label>
@@ -33,33 +34,35 @@ session_start();
 
         </form>
         <?php
-        
+        // if clicked confirm:
         if ($_SERVER["REQUEST_METHOD"]== "POST" && isset($_POST["submit"])){
+            // no artist input
             if (empty($_POST['artist'])) {
                 echo "You need to enter an artist!<br>";
               }
               else {
                 $artist =$_POST['artist'];
               }
-              
+              // no song input
               if(empty($_POST['song'])) {
                 echo "You need to enter a song!<br>";
               }
               else {
                 $song = trim($_POST['song']);
               }
-            
+            // no rating input
               if (empty($_POST['rating'])){
                 echo "You need to enter a rating!<br>";
               }
               else{
+                // trim takes away any spaces (only allows strictly numerical value)
                 $rating = trim($_POST['rating']);
               }
+            //preparing SQL statement
             $sql = "SELECT id FROM ratings WHERE username = ? AND artist = ? AND song = ?";
             $stmt = $db->prepare($sql);
             
-            // $select2 = "SELECT * FROM ratings WHERE artist ='".$_POST['artist']."' AND song ='".$_POST['song']."'";
-            // $result = mysqli_query($db, $select2);
+            //if the statement is true
             if ($stmt) {
                 $stmt->bind_param("sss", $_SESSION['username'],$artist,$song);
                 $stmt->execute();
@@ -70,12 +73,13 @@ session_start();
                 else if($_POST['rating']>5 OR $_POST['rating']<1){
                     echo "Please chose a rating from 1 to 5!";
                 }
-                else{
+                else{//if successful 
                     $add = "INSERT INTO ratings (username, artist, song, rating)
                     VALUES ('".$_SESSION['username']."','$artist','$song','$rating')";
                     mysqli_query($db, $add);
                     header("Location:musicratings.php");
                 }}}
+            //if they click cancel
         else if ($_SERVER["REQUEST_METHOD"]=="POST" && isset($_POST["cancel"])){
             header("Location: musicratings.php");
             exit();
