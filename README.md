@@ -9,4 +9,4 @@ An introduction to SQL based on <https://www.w3schools.com/sql/sql_primarykey.as
 for COMP 333 Software Engineering.
 Created by Sebastian Zimmeck (<szimmeck@wesleyan.edu>).
 
-comp333hw2.great-site.net/form.html
+Deployed app URL: http://comp333hw2.great-site.net/form.html
