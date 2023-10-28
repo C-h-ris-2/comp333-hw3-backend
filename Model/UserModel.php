@@ -4,6 +4,14 @@ class UserModel extends Database
 {
     public function getUsers($limit)
     {
-        return $this->select("SELECT * FROM ratings");
+        return $this->select("SELECT * FROM users");
     }
+
+    public function insertUser(){
+        $sql = "INSERT INTO users (username, password) VALUES ('sean', 5678)";
+        $stmt = $this->connection->prepare($sql);
+        $stmt->execute();
+    }
+
+
 }
