@@ -5,20 +5,27 @@ class UserController extends BaseController
     /** 
 * "/user/list" Endpoint - Get list of users 
 */
-    public function listAction()
+    public function loginAction()
     {
         $strErrorDesc = '';
         $requestMethod = $_SERVER["REQUEST_METHOD"];
         $arrQueryStringParams = $this->getQueryStringParams();
-        if (strtoupper($requestMethod) == 'GET') {
+        if (strtoupper($requestMethod) == 'POST') {
             try {
                 $userModel = new UserModel();
-                $intLimit = 100;
-                if (isset($arrQueryStringParams['limit']) && $arrQueryStringParams['limit']) {
-                    $intLimit = $arrQueryStringParams['limit'];
+                $data = json_decode(file_get_contents('php://input'), true);
+                // if(isset($data['username']) && isset($data['password'])) {               
+                //     $user = $data['username'];
+                //     $pass = $data['password'];
+                // }
+                // $user = $data['username'];
+                // $pass = $data['password'];
+                $arrUser = $userModel->getUsers($data['username'], $data['password']);
+                if ($arrUser){
+                    $response = json_encode(['msg' => '', 'data' => $arrUser[0], 'code' => 0]);
+                } else  {
+                    $response = json_encode(['msg' => 'username or password is not correct', 'code'=>1]);
                 }
-                $arrUsers = $userModel->getUsers($intLimit);
-                $responseData = json_encode($arrUsers);
             } catch (Error $e) {
                 $strErrorDesc = $e->getMessage().'Something went wrong! Please contact support.';
                 $strErrorHeader = 'HTTP/1.1 500 Internal Server Error';
@@ -30,7 +37,7 @@ class UserController extends BaseController
         // send output 
         if (!$strErrorDesc) {
             $this->sendOutput(
-                $responseData,
+                $response,
                 array('Content-Type: application/json', 'HTTP/1.1 200 OK')
             );
         } else {
@@ -56,12 +63,16 @@ class UserController extends BaseController
         if (strtoupper($requestMethod) == 'GET') {
             try {
                 $songModel = new SongModel();
-                $intLimit = 100;
-                if (isset($arrQueryStringParams['limit']) && $arrQueryStringParams['limit']) {
-                    $intLimit = $arrQueryStringParams['limit'];
-                }
                 $arrUsers = $songModel->getRatings();
-                $responseData = json_encode($arrUsers);
+                $fullarr = array();
+                if ($arrUsers){
+                    for ($i = 0; $i < count($arrUsers); $i++) {
+                        $fullarr[] = $arrUsers[$i];
+                    $response = json_encode(['msg' =>'', 'data'=> $fullarr,'code' =>0]);
+                    }
+                }else {
+                    $response = json_encode(['msg'=> 'no songs found', 'code'=>1]);
+                }
             } catch (Error $e) {
                 $strErrorDesc = $e->getMessage().'Something went wrong! Please contact support.';
                 $strErrorHeader = 'HTTP/1.1 500 Internal Server Error';
@@ -73,7 +84,7 @@ class UserController extends BaseController
         // send output 
         if (!$strErrorDesc) {
             $this->sendOutput(
-                $responseData,
+                $response,
                 array('Content-Type: application/json', 'HTTP/1.1 200 OK')
             );
         } else {
@@ -95,7 +106,7 @@ class UserController extends BaseController
     public function songDeleteAction(){
         $requestMethod = $_SERVER['REQUEST_METHOD'];
         
-        if (strtoupper($requestMethod) == 'DELETE') {
+        if (strtoupper($requestMethod) == 'POST') {
             $newUserModel = new SongModel();
             $newUserModel -> deleteRating();
         }

@@ -2,13 +2,22 @@
 require_once PROJECT_ROOT_PATH . "/Model/Database.php";
 class UserModel extends Database
 {
-    public function getUsers($limit)
+    public function getUsers($user, $pass)
     {
-        return $this->select("SELECT * FROM users");
-    }
+        $result = $this->select("SELECT * FROM users WHERE username = ?", ["s", $user]);
+        if (count($result) === 1) {
+            $hashed_password = $result[0]['password'];
 
+            if (password_verify($pass, $hashed_password)) {
+                return $result;
+            }
+        }
+
+        return false;
+    }
     public function insertUser(){
-        $sql = "INSERT INTO users (username, password) VALUES ('sean', 5678)";
+        $hashed_password = password_hash(5678, PASSWORD_DEFAULT);
+        $sql = "INSERT INTO users (username, password) VALUES ('sean', '$hashed_password')";
         $stmt = $this->connection->prepare($sql);
         $stmt->execute();
     }
