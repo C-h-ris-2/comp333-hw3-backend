@@ -15,10 +15,13 @@ class UserModel extends Database
 
         return false;
     }
-    public function insertUser(){
-        $hashed_password = password_hash(5678, PASSWORD_DEFAULT);
-        $sql = "INSERT INTO users (username, password) VALUES ('sean', '$hashed_password')";
+    public function insertUser($userData){
+        $sql = "INSERT INTO users (username, password) VALUES (?,?)";
+
         $stmt = $this->connection->prepare($sql);
+        $user = $userData['username'];
+        $hashed_pass = password_hash($userData["password"], PASSWORD_DEFAULT);
+        $stmt->bind_param("ss", $user, $hashed_pass);
         $stmt->execute();
     }
 

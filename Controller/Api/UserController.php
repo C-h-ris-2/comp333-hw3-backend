@@ -49,12 +49,34 @@ class UserController extends BaseController
 
     public function createAction() {
         $requestMethod = $_SERVER['REQUEST_METHOD'];
-        
+        $strErrorDesc = '';
+
         if (strtoupper($requestMethod) == 'POST') {
-            $newUserModel = new UserModel();
-            $newUserModel -> insertUser();
+            try {
+                $userModel = new UserModel();
+                $data = json_decode(file_get_contents('php://input'), true);
+                $arrUser = $userModel->insertUser($data);
+                $response = json_encode(['msg'=>'User registered!']);
+            } catch (Error $e) {
+                $strErrorDesc = $e->getMessage().'Something went wrong! Please contact support.';
+                $strErrorHeader = 'HTTP/1.1 500 Internal Server Error';
+            }
+        } else {
+            $strErrorDesc = 'Method not supported';
+            $strErrorHeader = 'HTTP/1.1 422 Unprocessable Entity';
         }
-    }
+        // send output 
+        if (!$strErrorDesc) {
+            $this->sendOutput(
+                $response,
+                array('Content-Type: application/json', 'HTTP/1.1 200 OK')
+            );
+        } else {
+            $this->sendOutput(json_encode(array('error' => $strErrorDesc)), 
+                array('Content-Type: application/json', $strErrorHeader)
+            );
+        }
+        }
 
     public function songlistAction() {
         $strErrorDesc = '';
@@ -96,19 +118,95 @@ class UserController extends BaseController
 
     public function songinsertAction(){
         $requestMethod = $_SERVER['REQUEST_METHOD'];
-        
+        $strErrorDesc = '';
         if (strtoupper($requestMethod) == 'POST') {
-            $newUserModel = new SongModel();
-            $newUserModel -> insertRating();
+            try{
+                $songModel = new SongModel();
+                $data = json_decode(file_get_contents('php://input'), true);
+                $arrUser = $songModel->insertRating($data);
+                $response = json_encode(['msg'=>'Song inserted!']);
+            } catch (Error $e) {
+                $strErrorDesc = $e->getMessage(). 'Something went wrong! Please contact support.';
+                $strErrorHeader = 'HTTP/1.1 500 Internal Server Error';
+            }
+        }else {
+            $strErrorDesc = 'Method not supported';
+            $strErrorHeader = 'HTTP/1.1 422 Unprocessable Entity';
+        }
+        // send output 
+        if (!$strErrorDesc) {
+            $this->sendOutput(
+                $response,
+                array('Content-Type: application/json', 'HTTP/1.1 200 OK')
+            );
+        } else {
+            $this->sendOutput(json_encode(array('error' => $strErrorDesc)), 
+                array('Content-Type: application/json', $strErrorHeader)
+            );
         }
     }
 
     public function songDeleteAction(){
         $requestMethod = $_SERVER['REQUEST_METHOD'];
-        
+        $strErrorDesc = '';
         if (strtoupper($requestMethod) == 'POST') {
-            $newUserModel = new SongModel();
-            $newUserModel -> deleteRating();
+            try {
+                $songModel = new SongModel();
+                $data = json_decode(file_get_contents('php://input'),true);
+                $arrUser = $songModel->deleteRating($data);
+                $response = json_encode(['msg'=> 'Song deleted']);
+            } catch (Error $e) {
+                $strErrorDesc = $e->getMessage(). 'Something went wrong! Please contact support.';
+                $strErrorHeader = 'HTTP/1.1 500 Internal Server Error';
+            }
+        }else {
+            $strErrorDesc = 'Method not supported';
+            $strErrorHeader = 'HTTP/1.1 422 Unprocessable Entity';
+        }
+        // send output 
+        if (!$strErrorDesc) {
+            $this->sendOutput(
+                $response,
+                array('Content-Type: application/json', 'HTTP/1.1 200 OK')
+            );
+        } else {
+            $this->sendOutput(json_encode(array('error' => $strErrorDesc)), 
+                array('Content-Type: application/json', $strErrorHeader)
+            );
+        }
+    }
+
+    public function updateSongAction(){
+        $requestMethod = $_SERVER['REQUEST_METHOD'];
+        $strErrorDesc = '';
+        if (strtoupper($requestMethod) == 'POST') {
+            try {
+                $songModel = new SongModel();
+                $data = json_decode(file_get_contents('php://input'), true);
+                $arrUser = $songModel->updateSong($data);
+                if ($arrUser){
+                    $response = json_encode(['msg'=> 'Song is now updated to ', 'data' => $arrUser[0], 'code' => 0]);
+                } else {
+                    $response = json_encode(['msg' => 'Could not update the song!', 'code' => 1]);
+                }
+            } catch (Error $e) {
+                $strErrorDesc = $e->getMessage().'Something went wrong! Please contact support.';
+                $strErrorHeader = 'HTTP/1.1 500 Internal Server Error';
+            }
+        } else {
+            $strErrorDesc = 'Method not supported';
+            $strErrorHeader = 'HTTP/1.1 422 Unprocessable Entity';
+        }
+        // send output 
+        if (!$strErrorDesc) {
+            $this->sendOutput(
+                $response,
+                array('Content-Type: application/json', 'HTTP/1.1 200 OK')
+            );
+        } else {
+            $this->sendOutput(json_encode(array('error' => $strErrorDesc)), 
+                array('Content-Type: application/json', $strErrorHeader)
+            );
         }
     }
 }
