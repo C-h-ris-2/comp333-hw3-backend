@@ -9,7 +9,6 @@ class UserController extends BaseController
     {
         $strErrorDesc = '';
         $requestMethod = $_SERVER["REQUEST_METHOD"];
-        $arrQueryStringParams = $this->getQueryStringParams();
         if (strtoupper($requestMethod) == 'POST') {
             try {
                 $userModel = new UserModel();
@@ -20,9 +19,9 @@ class UserController extends BaseController
                 // }
                 // $user = $data['username'];
                 // $pass = $data['password'];
-                $arrUser = $userModel->getUsers($data['username'], $data['password']);
+                $arrUser = $userModel->getUsers($data);
                 if ($arrUser){
-                    $response = json_encode(['msg' => '', 'data' => $arrUser[0], 'code' => 0]);
+                    $response = json_encode(['msg' => 'User logged in!', 'data' => $arrUser[0], 'code' => 0]);
                 } else  {
                     $response = json_encode(['msg' => 'username or password is not correct', 'code'=>1]);
                 }
@@ -146,20 +145,25 @@ class UserController extends BaseController
         }
     }
 
-    public function songDeleteAction(){
+
+    public function updateSongAction(){
         $requestMethod = $_SERVER['REQUEST_METHOD'];
         $strErrorDesc = '';
         if (strtoupper($requestMethod) == 'POST') {
             try {
                 $songModel = new SongModel();
-                $data = json_decode(file_get_contents('php://input'),true);
-                $arrUser = $songModel->deleteRating($data);
-                $response = json_encode(['msg'=> 'Song deleted']);
+                $data = json_decode(file_get_contents('php://input'), true);
+                $arrUser = $songModel->updateSong($data);
+                if ($arrUser){
+                    $response = json_encode(['msg'=> 'Song is now updated to ', 'data' => $arrUser[0], 'code' => 0]);
+                } else {
+                    $response = json_encode(['msg' => 'Could not update the song!', 'code' => 1]);
+                }
             } catch (Error $e) {
-                $strErrorDesc = $e->getMessage(). 'Something went wrong! Please contact support.';
+                $strErrorDesc = $e->getMessage().'Something went wrong! Please contact support.';
                 $strErrorHeader = 'HTTP/1.1 500 Internal Server Error';
             }
-        }else {
+        } else {
             $strErrorDesc = 'Method not supported';
             $strErrorHeader = 'HTTP/1.1 422 Unprocessable Entity';
         }
@@ -176,19 +180,15 @@ class UserController extends BaseController
         }
     }
 
-    public function updateSongAction(){
+    public function deleteSongAction(){
         $requestMethod = $_SERVER['REQUEST_METHOD'];
         $strErrorDesc = '';
         if (strtoupper($requestMethod) == 'POST') {
             try {
                 $songModel = new SongModel();
                 $data = json_decode(file_get_contents('php://input'), true);
-                $arrUser = $songModel->updateSong($data);
-                if ($arrUser){
-                    $response = json_encode(['msg'=> 'Song is now updated to ', 'data' => $arrUser[0], 'code' => 0]);
-                } else {
-                    $response = json_encode(['msg' => 'Could not update the song!', 'code' => 1]);
-                }
+                $arrUser = $songModel->deleteSong($data);
+                $response = json_encode(['msg'=>'Song deleted!']);
             } catch (Error $e) {
                 $strErrorDesc = $e->getMessage().'Something went wrong! Please contact support.';
                 $strErrorHeader = 'HTTP/1.1 500 Internal Server Error';

@@ -1,5 +1,6 @@
 <?php
 require_once PROJECT_ROOT_PATH . "/Model/Database.php";
+session_start();
 class SongModel extends Database
 {
     public function getRatings(){
@@ -7,6 +8,7 @@ class SongModel extends Database
     }
 
     public function insertRating($userData){
+
         $sql = "INSERT INTO ratings (username, artist, song, rating) VALUES (?,?,?,?)";
         $stmt = $this->connection->prepare($sql);
         $user = $userData['username'];
@@ -17,14 +19,6 @@ class SongModel extends Database
         $stmt->execute();
     }
 
-    public function deleteRating($userData){
-        $sql = "DELETE FROM ratings WHERE id=?";
-        $id = $userData['id'];
-        $stmt = $this->connection->prepare($sql);
-        $stmt->bind_param('i', $id);
-;       $stmt->execute();
-    }
-
     public function updateSong($userData) {
         $sql = 'UPDATE ratings WHERE id = ? SET artist=?, song = ?, rating = ?';
         $id = $userData['id'];
@@ -33,6 +27,13 @@ class SongModel extends Database
         $rating = $userData['rating'];
         $stmt = $this->connection->prepare($sql);
         $stmt->bind_param("issi", $id, $artist, $song, $rating);
+        $stmt->execute();
+    }
+
+    public function deleteSong($userData){
+        $id = $userData["id"];
+        $sql = "DELETE FROM ratings WHERE id=$id";
+        $stmt = $this->connection->prepare($sql);
         $stmt->execute();
     }
 
