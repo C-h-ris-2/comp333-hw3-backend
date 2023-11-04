@@ -1,4 +1,5 @@
 <?php
+// CODE BASED ON REST API TUTORIAL
 class UserController extends BaseController
 
 {
@@ -11,15 +12,15 @@ class UserController extends BaseController
         $requestMethod = $_SERVER["REQUEST_METHOD"];
         if (strtoupper($requestMethod) == 'POST') {
             try {
+                 /** 
+* Getting model for input
+*/
                 $userModel = new UserModel();
                 $data = json_decode(file_get_contents('php://input'), true);
-                // if(isset($data['username']) && isset($data['password'])) {               
-                //     $user = $data['username'];
-                //     $pass = $data['password'];
-                // }
-                // $user = $data['username'];
-                // $pass = $data['password'];
                 $arrUser = $userModel->getUsers($data);
+                    /** 
+* Checking if it goes through: 
+*/
                 if ($arrUser){
                     $response = json_encode(['msg' => 'User logged in!', 'data' => $arrUser[0], 'code' => 0]);
                 } else  {
