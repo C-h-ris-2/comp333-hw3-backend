@@ -1,6 +1,5 @@
 <?php
 require_once PROJECT_ROOT_PATH . "/Model/Database.php";
-session_start();
 class SongModel extends Database
 {
     public function getRatings(){
@@ -20,13 +19,13 @@ class SongModel extends Database
     }
 
     public function updateSong($userData) {
-        $sql = 'UPDATE ratings WHERE id = ? SET artist=?, song = ?, rating = ?';
-        $id = $userData['id'];
+        $sql = 'UPDATE ratings SET artist = ?, song = ?, rating = ? WHERE id = ?';
         $artist = $userData['artist'];
         $song = $userData['song'];
         $rating = $userData['rating'];
+        $id = $userData['id'];
         $stmt = $this->connection->prepare($sql);
-        $stmt->bind_param("issi", $id, $artist, $song, $rating);
+        $stmt->bind_param("ssii", $artist, $song, $rating, $id);
         $stmt->execute();
     }
 
