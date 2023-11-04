@@ -1,12 +1,29 @@
-# Homework 2 - comp333-hw2-backend
-The second homework assignment dealing with backend tech (LAMP, CRUD, APIs, PHP, MySQL).
+# Homework 3 Back End
+This repo contains the back-end component to our functional RevMixer React Application. The backend component (and its set up) be found here:https://github.com/C-h-ris-2/revmixerfrontend.
 
-# Setting up the development environment
 
-![Screenshot](screenshotenv.png)
+# Repo Structure: 
+* Controller
+    * Api
+        * BaseController.php
+        * UserController.php
+* inc
+    * bootstrap.php
+    * config.php
+* Model
+    * Database.php
+    * SongModel.php
+    * UserModel.php
+* index.php
+* README.md
 
-An introduction to SQL based on <https://www.w3schools.com/sql/sql_primarykey.asp>
-for COMP 333 Software Engineering.
-Created by Sebastian Zimmeck (<szimmeck@wesleyan.edu>).
+# Configuration: 
 
-Deployed app URL: https://comp333hw2.great-site.net/form.html
+1) Start servers on XAMPP
+
+2) Test configuration by running lines on Postman.
+
+# Team contributions:
+- Christian Diaz Herrera: 65%
+- Cristi Gonzalez 35%
+
