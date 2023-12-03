@@ -10,10 +10,8 @@ require __DIR__ . "/inc/bootstrap.php";
 // }
 header('Access-Control-Allow-Origin: *');
 header('Access-Control-Allow-Credentials: true');
-header('Access-Control-Allow-Methods: PUT, POST, GET, OPTIONS, DELETE, OPTIONS');
-header('Access-Control-Allow-Headers: X-Requested-With, Authorization, Content-Type, Accept');
-header('Referer-Policy: no-referer-when-policy');
-header('Access-Control-Max-Age: 86400');
+header('Access-Control-Allow-Methods: POST, GET, OPTIONS, DELETE');
+header('Access-Control-Allow-Headers:*');
 
 if (strtolower($_SERVER['REQUEST_METHOD']) == 'options') {
     exit();

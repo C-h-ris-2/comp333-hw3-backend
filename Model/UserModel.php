@@ -2,6 +2,7 @@
 require_once PROJECT_ROOT_PATH . "/Model/Database.php";
 class UserModel extends Database
 {
+    //login authentication where is grabs username which is input and checks if the password matches the hashed password from db
     public function getUsers($userData)
     {   
         $user = $userData['username'];
@@ -17,6 +18,7 @@ class UserModel extends Database
 
         return false;
     }
+    //function for registering new user to input into table
     public function insertUser($userData){
         $sql = "INSERT INTO users (username, password) VALUES (?,?)";
 

@@ -2,12 +2,13 @@
 require_once PROJECT_ROOT_PATH . "/Model/Database.php";
 class SongModel extends Database
 {
+    //grabbing all of the info from ratings
     public function getRatings(){
         return $this->select("SELECT * FROM ratings");
     }
-
+//based on the user input and who is logged in, new rating is input into the table
     public function insertRating($userData){
-
+    
         $sql = "INSERT INTO ratings (username, artist, song, rating) VALUES (?,?,?,?)";
         $stmt = $this->connection->prepare($sql);
         $user = $userData['username'];
@@ -18,7 +19,7 @@ class SongModel extends Database
         return($stmt->execute());
         
     }
-
+//grabs id and user input to make changes to a preexisting entry in the table
     public function updateSong($userData) {
         $sql = 'UPDATE ratings SET artist = ?, song = ?, rating = ? WHERE id = ?';
         $artist = $userData['artist'];
@@ -33,7 +34,7 @@ class SongModel extends Database
             return $result;
         } 
     }
-
+//grabs id to delete rating in the table
     public function deleteSong($userData){
         $id = $userData["id"];
         $sql = "DELETE FROM ratings WHERE id=$id";
