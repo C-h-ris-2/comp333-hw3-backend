@@ -55,7 +55,11 @@ class UserController extends BaseController
                 $userModel = new UserModel();
                 $data = json_decode(file_get_contents('php://input'), true);
                 $arrUser = $userModel->insertUser($data);
-                $response = json_encode(['msg'=>'User registered!']);
+                if ($arrUser){
+                    $response = json_encode(['msg'=>'User registered!', 'code' => 0]);
+                } else {
+                    $response = json_encode(['msg'=>'Failed to register user', 'code' => 1]);
+                }
             } catch (Error $e) {
                 $strErrorDesc = $e->getMessage().'Something went wrong! Please contact support.';
                 $strErrorHeader = 'HTTP/1.1 500 Internal Server Error';
@@ -123,7 +127,11 @@ class UserController extends BaseController
                 $songModel = new SongModel();
                 $data = json_decode(file_get_contents('php://input'), true);
                 $arrUser = $songModel->insertRating($data);
-                $response = json_encode(['msg'=>'Song inserted!']);
+                if ($arrUser) {
+                    $response = json_encode(['msg'=>'Song inserted!']);
+                } else {
+                    $response = json_encode(['msg' => 'Failed to insert song']);
+                }
             } catch (Error $e) {
                 $strErrorDesc = $e->getMessage(). 'Something went wrong! Please contact support.';
                 $strErrorHeader = 'HTTP/1.1 500 Internal Server Error';
@@ -188,7 +196,11 @@ class UserController extends BaseController
                 $songModel = new SongModel();
                 $data = json_decode(file_get_contents('php://input'), true);
                 $arrUser = $songModel->deleteSong($data);
-                $response = json_encode(['msg'=>'Song deleted!']);
+                if($arrUser){
+                    $response = json_encode(['msg'=>'Song deleted!']);
+                } else {
+                    $response = json_encode(['msg' => 'Failed to delete song']);
+                }
             } catch (Error $e) {
                 $strErrorDesc = $e->getMessage().'Something went wrong! Please contact support.';
                 $strErrorHeader = 'HTTP/1.1 500 Internal Server Error';

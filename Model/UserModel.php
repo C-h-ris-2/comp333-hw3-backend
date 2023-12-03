@@ -25,6 +25,10 @@ class UserModel extends Database
         $hashed_pass = password_hash($userData["password"], PASSWORD_DEFAULT);
         $stmt->bind_param("ss", $user, $hashed_pass);
         $stmt->execute();
+        $result = $this->select("SELECT * FROM users WHERE username = ?", ["s", $user]);
+        if(count($result) === 1) {
+            return $result;
+        } 
     }
 
 

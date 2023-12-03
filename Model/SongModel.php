@@ -15,7 +15,8 @@ class SongModel extends Database
         $song = $userData['song'];
         $rating = $userData['rating'];
         $stmt->bind_param('sssi', $user, $artist, $song, $rating);
-        $stmt->execute();
+        return($stmt->execute());
+        
     }
 
     public function updateSong($userData) {
@@ -27,13 +28,17 @@ class SongModel extends Database
         $stmt = $this->connection->prepare($sql);
         $stmt->bind_param("ssii", $artist, $song, $rating, $id);
         $stmt->execute();
+        $result = $this->select("SELECT * FROM ratings WHERE id = ?", ["i", $id]);
+        if(count($result) === 1) {
+            return $result;
+        } 
     }
 
     public function deleteSong($userData){
         $id = $userData["id"];
         $sql = "DELETE FROM ratings WHERE id=$id";
         $stmt = $this->connection->prepare($sql);
-        $stmt->execute();
+        return($stmt->execute());
     }
 
 }
